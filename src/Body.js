@@ -1,22 +1,44 @@
 import React from 'react'
 import Header from "./Header"
 import "./Body.css"
+import { useDataLayerValue } from './DataLayer'
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import SongRow from "./SongRow"
 
 function Body({spotify}) {
+
+    const [{discover_weekly}, dispatch] = useDataLayerValue()
+
     return (
         <div className="body">
             <Header spotify={spotify} />
 
             <div className="body_info">
                 <img
-                    src="https://newjams-images.scdn.co/v2/discover-weekly/ST82T7Hwk0lXM3D3iVsOXNjRHDmChdjijk5k_nl1He07TGrvVENroJ_XqMnbeYWYFU6Nqynzvw4lEKNFmp8cyuxw4ck5I6viH2-AOrNnCAv71GzU4BeECJPjLy3gyhqDiE0hJqtFWhlvIJP0bm9tzRNRR1xepqNpIz-m2UXzSCS5fbT8CV6Mr4tZd4YLp433k_sb6iNGkf6pbiWggBNtxxBwK-i8yvrjqcaHm23RtIVb_Md84lkPfTCKPJwFMdb7dWHjAtrAgBxEI6nzhTC68BHoqEbZL4i9OS4o7ToooT16DtXDcSuImB_7Z5yeInnoGtcQCtFAZq8rW8S0PjRyCg==/MTA6MjM6ODFUOTEtMDEtMA==/default"
+                    src={discover_weekly?.images[0]?.url}
                     alt="" 
                 />
                 <div className="body_infoText">
                     <strong>PLAYLIST</strong>
-                    <h2>Discover Weekly</h2>
-                    <p>description........</p>
+                    <h2>Gintama</h2>
+                    <p>{discover_weekly?.description}</p>
                 </div>
+            </div>
+
+            <div className="body_songs">
+                <div className="body_icons">
+                    <PlayCircleFilledIcon className="body_shuffle" />
+                    <FavoriteIcon fontSize="large" />
+                    <MoreHorizIcon />
+                </div>
+
+                {/* List of Songs */}
+                {discover_weekly?.tracks.items.map(item => (
+                    <SongRow track={item.track} />
+                ))}
+
             </div>
         </div>
     )

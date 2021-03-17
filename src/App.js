@@ -42,7 +42,13 @@ function App() {
           })
         })
       
-      
+      spotify.getPlaylist('676YLjcLtgIoEB1CaCpKkk')
+        .then((response) => 
+          dispatch({
+            type: "SET_DISCOVER_WEEKLY",
+            discover_weekly: response
+          })
+        )
 
     }
   }, [])
