@@ -6,6 +6,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import Player from "./Player"
 import {useDataLayerValue} from "./DataLayer"
 
+
 const spotify = new SpotifyWebApi();
 
 function App() {
@@ -21,18 +22,19 @@ function App() {
 
     if(_token){
 
+      spotify.setAccessToken(_token)
+
       dispatch({
         type: "SET_TOKEN",
         token: _token
       })
 
-      spotify.setAccessToken(_token)
-      spotify.getMe().then(user => {
-        dispatch({
-          type: "SET_USER",
-          user: user
-        })
+      dispatch({
+        type: "SET_SPOTIFY",
+        spotify: spotify
       })
+
+      
 
       spotify.getUserPlaylists()
         .then((playlists) => {
@@ -49,9 +51,24 @@ function App() {
             discover_weekly: response
           })
         )
+      
+      spotify.getMyTopArtists()
+          .then((response) => 
+            dispatch({
+              type: "SET_TOP_ARTIST",
+              top_artists: response
+            })
+          )
+
+      spotify.getMe().then(user => {
+        dispatch({
+          type: "SET_USER",
+          user: user
+        })
+      })
 
     }
-  }, [])
+  }, [token, dispatch])
 
   //console.log("User", user);
   //console.log("Token", token);

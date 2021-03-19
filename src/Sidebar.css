@@ -1,4 +1,6 @@
 .sidebar{
+    /*display: flex;
+    flex-direction: column;*/
     height: 100vh;
     flex: 0.2;
     color: white;
@@ -17,7 +19,7 @@
 
 .sidebar_logo{
     margin-right: auto;
-    /*object-fit: contain;*/
+    object-fit: contain;
     height: 70px;
     padding: 10px;
 }
